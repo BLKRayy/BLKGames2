@@ -1,4 +1,4 @@
-// SIMPLE HASH (not cryptographic, but hides raw password)
+// SIMPLE HASH (not cryptographic, just hides raw password)
 function simpleHash(str) {
   let h = 0;
   for (const ch of str) h += ch.charCodeAt(0);
@@ -6,10 +6,10 @@ function simpleHash(str) {
 }
 
 const ADMIN_USER = "admin";
-const ADMIN_PASS_HASH = simpleHash("loyal"); // 545
+const ADMIN_PASS_HASH = simpleHash("loyal");
 const SESSION_KEY = "blkAdminSession";
 
-// AUTH GUARD
+/* AUTH */
 function isLoggedIn() {
   return localStorage.getItem(SESSION_KEY) === "active";
 }
@@ -24,7 +24,6 @@ function showAdmin() {
   document.getElementById("adminApp").classList.remove("hidden");
 }
 
-// LOGIN HANDLERS
 function setupLogin() {
   const userEl = document.getElementById("loginUser");
   const passEl = document.getElementById("loginPass");
@@ -34,12 +33,10 @@ function setupLogin() {
   function attempt() {
     const u = userEl.value.trim();
     const p = passEl.value;
-
     if (u !== ADMIN_USER || simpleHash(p) !== ADMIN_PASS_HASH) {
       err.textContent = "Invalid credentials.";
       return;
     }
-
     localStorage.setItem(SESSION_KEY, "active");
     err.textContent = "";
     initAdminApp();
@@ -52,7 +49,7 @@ function setupLogin() {
   };
 }
 
-// SIGN OUT
+/* SIGN OUT */
 function setupSignOut() {
   const btn = document.getElementById("signOutBtn");
   btn.onclick = () => {
@@ -61,21 +58,30 @@ function setupSignOut() {
   };
 }
 
-// NAVIGATION
+/* NAV */
 function setupNav() {
-  document.querySelectorAll(".nav-btn").forEach(btn => {
-    btn.onclick = () => {
-      document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
+  const buttons = document.querySelectorAll(".nav-link");
+  const sections = {
+    dashboard: "admin-dashboard",
+    games: "admin-games",
+    importexport: "admin-importexport",
+    lockdown: "admin-lockdown",
+    requests: "admin-requests"
+  };
 
-      const target = btn.dataset.section;
-      document.querySelectorAll(".content > .panel").forEach(p => p.classList.add("hidden"));
-      document.getElementById("admin-" + target).classList.remove("hidden");
+  buttons.forEach(btn => {
+    btn.onclick = () => {
+      buttons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      Object.values(sections).forEach(id => {
+        document.getElementById(id).classList.add("hidden");
+      });
+      document.getElementById(sections[btn.dataset.section]).classList.remove("hidden");
     };
   });
 }
 
-// GAME EDITOR
+/* GAME EDITOR */
 let adminGames = [];
 
 async function loadAdminGames() {
@@ -92,18 +98,20 @@ async function loadAdminGames() {
 function renderGameEditor() {
   const box = document.getElementById("gameList");
   box.innerHTML = "";
-
   adminGames.forEach(g => {
     const row = document.createElement("div");
-    row.className = "panel";
+    row.className = "panel glass";
+    row.style.padding = "10px 12px";
     row.style.marginTop = "6px";
 
     row.innerHTML = `
-      <div class="panel-header">
-        <h3>${g.name}</h3>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-size:13px;font-weight:500;">${g.name}</div>
+          <div style="font-size:10px;color:#9ca3af;">${g.category} • ${g.tag || ""}</div>
+        </div>
+        <button class="btn btn-ghost small" data-url="${g.url}">EDIT</button>
       </div>
-      <p style="font-size:8px;">${g.category} • ${g.tag || ""}</p>
-      <button class="pixel-btn small" data-url="${g.url}">EDIT</button>
     `;
 
     row.querySelector("button").onclick = () => editGame(g.url);
@@ -117,10 +125,8 @@ function editGame(url) {
 
   const name = prompt("Name:", g.name);
   if (!name) return;
-
   const cat = prompt("Category:", g.category);
   if (!cat) return;
-
   const tag = prompt("Tag:", g.tag || "");
   const logo = prompt("Logo URL:", g.logo || "");
   const newUrl = prompt("Game URL:", g.url);
@@ -128,7 +134,6 @@ function editGame(url) {
   adminGames = adminGames.map(x =>
     x.url === url ? { ...x, name, category: cat, tag, logo, url: newUrl } : x
   );
-
   saveAdminGames();
   renderGameEditor();
 }
@@ -137,7 +142,7 @@ function saveAdminGames() {
   localStorage.setItem("customGames", JSON.stringify(adminGames));
 }
 
-// IMPORT / EXPORT
+/* IMPORT / EXPORT */
 function setupImportExport() {
   document.getElementById("exportBtn").onclick = () => {
     const blob = new Blob([JSON.stringify(adminGames, null, 2)], {
@@ -151,38 +156,27 @@ function setupImportExport() {
 
   document.getElementById("importBtn").onclick = () => {
     const file = document.getElementById("importFile").files[0];
+    const status = document.getElementById("importStatus");
     if (!file) {
-      document.getElementById("importStatus").textContent = "No file selected.";
+      status.textContent = "No file selected.";
       return;
     }
-
     const reader = new FileReader();
     reader.onload = () => {
       try {
         adminGames = JSON.parse(reader.result);
         saveAdminGames();
         renderGameEditor();
-        document.getElementById("importStatus").textContent = "Import complete.";
+        status.textContent = "Import complete.";
       } catch {
-        document.getElementById("importStatus").textContent = "Invalid JSON.";
+        status.textContent = "Invalid JSON.";
       }
     };
     reader.readAsText(file);
   };
 }
 
-// MAINTENANCE
-function setupMaintenance() {
-  const toggle = document.getElementById("maintToggle");
-  const stored = localStorage.getItem("maintenance") === "true";
-  toggle.checked = stored;
-
-  toggle.onchange = e => {
-    localStorage.setItem("maintenance", e.target.checked ? "true" : "false");
-  };
-}
-
-// GLOBAL LOCKDOWN
+/* GLOBAL LOCKDOWN */
 function setupLockdown() {
   const msgEl = document.getElementById("lockMsg");
   const minEl = document.getElementById("lockMinutes");
@@ -191,12 +185,10 @@ function setupLockdown() {
   document.getElementById("lockBtn").onclick = () => {
     const msg = msgEl.value.trim();
     const minutes = parseInt(minEl.value);
-
     if (!msg || !minutes) {
       statusEl.textContent = "Missing fields.";
       return;
     }
-
     const end = Date.now() + minutes * 60000;
     localStorage.setItem("blkGlobalLockdown", JSON.stringify({ msg, end }));
     statusEl.textContent = "Lockdown activated.";
@@ -208,48 +200,45 @@ function setupLockdown() {
   };
 }
 
-// REQUESTS
+/* REQUESTS */
 function loadRequests() {
   const list = JSON.parse(localStorage.getItem("blkRequests") || "[]");
   const box = document.getElementById("requestList");
   box.innerHTML = "";
-
   list.forEach(r => {
     const div = document.createElement("div");
-    div.className = "panel";
+    div.className = "panel glass";
+    div.style.padding = "10px 12px";
     div.style.marginTop = "6px";
     div.innerHTML = `
-      <p style="font-size:8px;">${r.text}</p>
-      <p style="font-size:7px;color:#9ca3af;">${new Date(r.time).toLocaleString()}</p>
+      <div style="font-size:12px;">${r.text}</div>
+      <div style="font-size:10px;color:#9ca3af;margin-top:4px;">${new Date(r.time).toLocaleString()}</div>
     `;
     box.appendChild(div);
   });
 }
 
-// ANALYTICS
+/* ANALYTICS */
 function loadAnalytics() {
   const profile = JSON.parse(localStorage.getItem("blkArcadeProfile") || "{}");
   document.getElementById("analyticsFavs").textContent = profile.favorites?.length || 0;
   document.getElementById("analyticsRecent").textContent = profile.recent?.length || 0;
 }
 
-// INIT ADMIN APP (only after login)
+/* INIT ADMIN APP */
 async function initAdminApp() {
-  document.getElementById("serverInfo").textContent = "Server running normally.";
   await loadAdminGames();
   loadRequests();
   loadAnalytics();
   setupImportExport();
-  setupMaintenance();
   setupLockdown();
   setupNav();
   setupSignOut();
 }
 
-// ROOT INIT
+/* ROOT INIT */
 document.addEventListener("DOMContentLoaded", () => {
   setupLogin();
-
   if (isLoggedIn()) {
     initAdminApp();
     showAdmin();
