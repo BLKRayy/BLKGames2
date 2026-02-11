@@ -1,0 +1,29 @@
+[
+  {
+    "name": "Retro Bowl",
+    "url": "https://example.com/retro-bowl",
+    "logo": "https://via.placeholder.com/300x200?text=Retro+Bowl",
+    "category": "Sports",
+    "tag": "Classic",
+    "featured": true,
+    "description": "Lead your team to glory in this nostalgic football sim."
+  },
+  {
+    "name": "Slope",
+    "url": "https://example.com/slope",
+    "logo": "https://via.placeholder.com/300x200?text=Slope",
+    "category": "Arcade",
+    "tag": "Fast",
+    "featured": false,
+    "description": "Dodge obstacles at insane speeds on an endless slope."
+  },
+  {
+    "name": "1v1.LOL",
+    "url": "https://example.com/1v1lol",
+    "logo": "https://via.placeholder.com/300x200?text=1v1.LOL",
+    "category": "Shooter",
+    "tag": "Build & Fight",
+    "featured": false,
+    "description": "Build, edit, and outplay your opponent in fast 1v1 duels."
+  }
+]
