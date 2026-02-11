@@ -1,9 +1,9 @@
 {
   "name": "BLK Arcade",
-  "short_name": "Arcade",
+  "short_name": "BLK Arcade",
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#050816",
-  "theme_color": "#22c55e",
+  "background_color": "#020617",
+  "theme_color": "#00c8ff",
   "icons": []
 }
