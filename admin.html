@@ -6,7 +6,6 @@
   <title>BLK Arcade Admin</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body class="theme-dark">
 
   <!-- PARTICLES -->
@@ -18,28 +17,28 @@
 
   <!-- FULLSCREEN LOGIN -->
   <div id="loginScreen" class="lockdown">
-    <div class="lock-card" style="width:340px;border-color:#22c55e;">
+    <div class="lock-card glass">
       <div class="lock-icon">🕹️</div>
       <h1>ADMIN LOGIN</h1>
       <h2>BLK ARCADE CONTROL</h2>
 
       <div class="lock-row" style="margin-top:10px;">
         <div class="lock-label">USERNAME</div>
-        <input id="loginUser" class="search-input" placeholder="admin">
+        <input id="loginUser" class="input" placeholder="admin">
       </div>
 
       <div class="lock-row" style="margin-top:8px;">
         <div class="lock-label">PASSWORD</div>
-        <input id="loginPass" type="password" class="search-input" placeholder="••••••">
+        <input id="loginPass" type="password" class="input" placeholder="••••••">
       </div>
 
-      <button id="loginBtn" class="pixel-btn glow" style="margin-top:12px;">
+      <button id="loginBtn" class="btn btn-primary large" style="margin-top:12px;">
         SIGN IN
       </button>
 
       <p id="loginError" class="lock-text" style="color:#f97316;margin-top:8px;"></p>
 
-      <button onclick="window.location.href='index.html'" class="pixel-btn small" style="margin-top:10px;">
+      <button onclick="window.location.href='index.html'" class="btn btn-ghost small" style="margin-top:10px;">
         BACK TO ARCADE
       </button>
     </div>
@@ -48,110 +47,90 @@
   <!-- ADMIN APP -->
   <div id="adminApp" class="hidden">
 
-    <header class="topbar">
-      <div class="top-left">
-        <button onclick="window.location.href='index.html'" class="pixel-btn small">BACK</button>
+    <header class="appbar glass" style="margin-top:14px;">
+      <div class="appbar-left">
+        <div class="logo-mark">ADM</div>
+        <div class="logo-text">
+          <div class="logo-title">ADMIN PANEL</div>
+          <div class="logo-sub">BLK ARCADE CONTROL CENTER</div>
+        </div>
       </div>
-      <div class="top-center">
-        <div class="logo-title">ADMIN PANEL</div>
-        <div class="logo-sub">BLK ARCADE CONTROL CENTER</div>
+      <div class="appbar-center">
+        <nav class="nav-links">
+          <button class="nav-link active" data-section="dashboard">DASHBOARD</button>
+          <button class="nav-link" data-section="games">GAMES</button>
+          <button class="nav-link" data-section="importexport">IMPORT / EXPORT</button>
+          <button class="nav-link" data-section="lockdown">LOCKDOWN</button>
+          <button class="nav-link" data-section="requests">REQUESTS</button>
+        </nav>
       </div>
-      <div class="top-right">
-        <span id="adminServerStatus" class="status-pill">SERVER: ONLINE</span>
-        <button id="signOutBtn" class="pixel-btn small">SIGN OUT</button>
+      <div class="appbar-right">
+        <button id="signOutBtn" class="btn btn-outline small">SIGN OUT</button>
       </div>
     </header>
 
-    <main class="layout">
+    <main class="main-shell" style="padding-top:12px;">
 
-      <aside class="sidebar">
-        <button class="nav-btn active" data-section="dashboard">DASHBOARD</button>
-        <button class="nav-btn" data-section="games">GAME EDITOR</button>
-        <button class="nav-btn" data-section="importexport">IMPORT / EXPORT</button>
-        <button class="nav-btn" data-section="maintenance">MAINTENANCE</button>
-        <button class="nav-btn" data-section="lockdown">GLOBAL LOCKDOWN</button>
-        <button class="nav-btn" data-section="requests">GAME REQUESTS</button>
-      </aside>
-
-      <section class="content">
-
-        <!-- DASHBOARD -->
-        <section class="panel" id="admin-dashboard">
-          <h3>SERVER DASHBOARD</h3>
-          <div class="panel-sub">Live system overview</div>
-
-          <div class="panel" style="margin-top:10px;">
-            <div class="panel-header">
-              <h3>SERVER STATUS</h3>
-            </div>
-            <p id="serverInfo">Checking...</p>
-          </div>
-
-          <div class="panel" style="margin-top:10px;">
-            <div class="panel-header">
-              <h3>PLAYER ANALYTICS</h3>
-            </div>
-            <p>Total Favorites: <span id="analyticsFavs">0</span></p>
-            <p>Total Recent Plays: <span id="analyticsRecent">0</span></p>
-          </div>
-        </section>
-
-        <!-- GAME EDITOR -->
-        <section class="panel hidden" id="admin-games">
-          <h3>GAME EDITOR</h3>
-          <div class="panel-sub">Edit, update, or remove games</div>
-          <div id="gameList"></div>
-        </section>
-
-        <!-- IMPORT / EXPORT -->
-        <section class="panel hidden" id="admin-importexport">
-          <h3>IMPORT / EXPORT</h3>
-          <div class="panel-sub">Backup or restore your game library</div>
-
-          <button id="exportBtn" class="pixel-btn glow" style="margin-top:10px;">EXPORT GAMES</button>
-
-          <input type="file" id="importFile" style="margin-top:10px;">
-          <button id="importBtn" class="pixel-btn" style="margin-top:6px;">IMPORT</button>
-
-          <p id="importStatus" style="margin-top:6px;font-size:8px;"></p>
-        </section>
-
-        <!-- MAINTENANCE -->
-        <section class="panel hidden" id="admin-maintenance">
-          <h3>MAINTENANCE MODE</h3>
-          <div class="panel-sub">Disable the entire site temporarily</div>
-
-          <label style="font-size:8px;margin-top:10px;">
-            <input type="checkbox" id="maintToggle"> ENABLE MAINTENANCE
-          </label>
-          <p style="font-size:8px;margin-top:6px;">
-            (Homepage can later read this flag from localStorage: "maintenance")
-          </p>
-        </section>
-
-        <!-- GLOBAL LOCKDOWN -->
-        <section class="panel hidden" id="admin-lockdown">
-          <h3>GLOBAL LOCKDOWN</h3>
-          <div class="panel-sub">Force the entire site into lockdown</div>
-
-          <textarea id="lockMsg" class="request-box" placeholder="Lockdown message..."></textarea>
-          <input id="lockMinutes" class="search-input" placeholder="Minutes" style="margin-top:6px;">
-
-          <button id="lockBtn" class="pixel-btn glow" style="margin-top:10px;">ACTIVATE LOCKDOWN</button>
-          <button id="unlockBtn" class="pixel-btn" style="margin-top:6px;">REMOVE LOCKDOWN</button>
-
-          <p id="lockStatus" style="margin-top:6px;font-size:8px;"></p>
-        </section>
-
-        <!-- REQUESTS -->
-        <section class="panel hidden" id="admin-requests">
-          <h3>GAME REQUESTS</h3>
-          <div class="panel-sub">Submitted by users</div>
-
-          <div id="requestList" style="margin-top:10px;"></div>
-        </section>
-
+      <!-- DASHBOARD -->
+      <section id="admin-dashboard" class="panel glass">
+        <div class="panel-header">
+          <h2>Server Dashboard</h2>
+          <span class="panel-sub">Live overview of arcade activity.</span>
+        </div>
+        <p id="serverInfo" class="status-text">Server running normally.</p>
+        <div style="margin-top:10px;font-size:12px;">
+          <p>Total Favorites: <span id="analyticsFavs">0</span></p>
+          <p>Total Recent Plays: <span id="analyticsRecent">0</span></p>
+        </div>
       </section>
+
+      <!-- GAME EDITOR -->
+      <section id="admin-games" class="panel glass hidden">
+        <div class="panel-header">
+          <h2>Game Editor</h2>
+          <span class="panel-sub">Edit, update, or remove games.</span>
+        </div>
+        <div id="gameList" class="section-grid"></div>
+      </section>
+
+      <!-- IMPORT / EXPORT -->
+      <section id="admin-importexport" class="panel glass hidden">
+        <div class="panel-header">
+          <h2>Import / Export</h2>
+          <span class="panel-sub">Backup or restore your game library.</span>
+        </div>
+        <button id="exportBtn" class="btn btn-primary small" style="margin-top:8px;">EXPORT GAMES</button>
+        <div style="margin-top:8px;">
+          <input type="file" id="importFile" class="input">
+        </div>
+        <button id="importBtn" class="btn btn-outline small" style="margin-top:8px;">IMPORT</button>
+        <p id="importStatus" class="status-text" style="margin-top:6px;"></p>
+      </section>
+
+      <!-- GLOBAL LOCKDOWN -->
+      <section id="admin-lockdown" class="panel glass hidden">
+        <div class="panel-header">
+          <h2>Global Lockdown</h2>
+          <span class="panel-sub">Force the entire site into lockdown.</span>
+        </div>
+        <textarea id="lockMsg" class="textarea" placeholder="Lockdown message..."></textarea>
+        <div style="margin-top:8px;display:flex;gap:8px;align-items:center;">
+          <input id="lockMinutes" class="input" placeholder="Minutes">
+          <button id="lockBtn" class="btn btn-primary small">ACTIVATE</button>
+          <button id="unlockBtn" class="btn btn-ghost small">REMOVE</button>
+        </div>
+        <p id="lockStatus" class="status-text" style="margin-top:6px;"></p>
+      </section>
+
+      <!-- REQUESTS -->
+      <section id="admin-requests" class="panel glass hidden">
+        <div class="panel-header">
+          <h2>Game Requests</h2>
+          <span class="panel-sub">Submitted by users.</span>
+        </div>
+        <div id="requestList" class="section-grid"></div>
+      </section>
+
     </main>
   </div>
 
