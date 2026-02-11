@@ -1,29 +1,122 @@
 [
   {
-    "name": "Retro Bowl",
-    "url": "https://example.com/retro-bowl",
-    "logo": "https://via.placeholder.com/300x200?text=Retro+Bowl",
-    "category": "Sports",
-    "tag": "Classic",
-    "featured": true,
-    "description": "Lead your team to glory in this nostalgic football sim."
-  },
-  {
+    "id": 1,
     "name": "Slope",
-    "url": "https://example.com/slope",
-    "logo": "https://via.placeholder.com/300x200?text=Slope",
-    "category": "Arcade",
-    "tag": "Fast",
-    "featured": false,
-    "description": "Dodge obstacles at insane speeds on an endless slope."
+    "url": "https://3kh0.github.io/slope/",
+    "category": "Arcade"
   },
   {
-    "name": "1v1.LOL",
-    "url": "https://example.com/1v1lol",
-    "logo": "https://via.placeholder.com/300x200?text=1v1.LOL",
-    "category": "Shooter",
-    "tag": "Build & Fight",
-    "featured": false,
-    "description": "Build, edit, and outplay your opponent in fast 1v1 duels."
+    "id": 2,
+    "name": "Run 3",
+    "url": "https://3kh0.github.io/run-3/",
+    "category": "Platformer"
+  },
+  {
+    "id": 3,
+    "name": "Retro Bowl",
+    "url": "https://3kh0.github.io/retro-bowl/",
+    "category": "Sports"
+  },
+  {
+    "id": 4,
+    "name": "Basketball Stars",
+    "url": "https://3kh0.github.io/basketball-stars/",
+    "category": "Sports"
+  },
+  {
+    "id": 5,
+    "name": "Moto X3M",
+    "url": "https://3kh0.github.io/moto-x3m/",
+    "category": "Racing"
+  },
+  {
+    "id": 6,
+    "name": "Moto X3M 2",
+    "url": "https://3kh0.github.io/moto-x3m-2/",
+    "category": "Racing"
+  },
+  {
+    "id": 7,
+    "name": "Moto X3M Pool Party",
+    "url": "https://3kh0.github.io/moto-x3m-pool-party/",
+    "category": "Racing"
+  },
+  {
+    "id": 8,
+    "name": "Cookie Clicker",
+    "url": "https://3kh0.github.io/cookie-clicker/",
+    "category": "Idle"
+  },
+  {
+    "id": 9,
+    "name": "2048",
+    "url": "https://3kh0.github.io/2048/",
+    "category": "Puzzle"
+  },
+  {
+    "id": 10,
+    "name": "Crossy Road",
+    "url": "https://3kh0.github.io/crossy-road/",
+    "category": "Arcade"
+  },
+  {
+    "id": 11,
+    "name": "Tunnel Rush",
+    "url": "https://3kh0.github.io/tunnel-rush/",
+    "category": "Arcade"
+  },
+  {
+    "id": 12,
+    "name": "BitLife",
+    "url": "https://3kh0.github.io/bitlife/",
+    "category": "Simulation"
+  },
+  {
+    "id": 13,
+    "name": "Drift Hunters",
+    "url": "https://3kh0.github.io/drift-hunters/",
+    "category": "Racing"
+  },
+  {
+    "id": 14,
+    "name": "FNAF 1",
+    "url": "https://3kh0.github.io/fnaf-1/",
+    "category": "Horror"
+  },
+  {
+    "id": 15,
+    "name": "FNAF 2",
+    "url": "https://3kh0.github.io/fnaf-2/",
+    "category": "Horror"
+  },
+  {
+    "id": 16,
+    "name": "FNAF 3",
+    "url": "https://3kh0.github.io/fnaf-3/",
+    "category": "Horror"
+  },
+  {
+    "id": 17,
+    "name": "Minecraft Classic",
+    "url": "https://classic.minecraft.net/",
+    "category": "Sandbox"
+  },
+  {
+    "id": 18,
+    "name": "Tetris",
+    "url": "https://3kh0.github.io/tetris/",
+    "category": "Puzzle"
+  },
+  {
+    "id": 19,
+    "name": "Jetpack Joyride",
+    "url": "https://3kh0.github.io/jetpack-joyride/",
+    "category": "Arcade"
+  },
+  {
+    "id": 20,
+    "name": "Subway Surfers",
+    "url": "https://3kh0.github.io/subway-surfers/",
+    "category": "Arcade"
   }
 ]
