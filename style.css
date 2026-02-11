@@ -721,3 +721,74 @@ body {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+/* GAME PLAYER */
+#gamePlayer {
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 1),
+    0 0 32px rgba(0, 200, 255, 0.6);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity var(--transition-med), transform var(--transition-med);
+}
+
+#gamePlayer:not(.hidden) {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* PLAYER TOP BAR */
+.player-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
+  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.85));
+}
+
+.player-title {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: var(--text);
+}
+
+.player-controls {
+  display: flex;
+  gap: 8px;
+}
+
+/* PLAYER FRAME */
+.player-frame {
+  width: 100%;
+  height: 70vh;
+  border-radius: 0 0 var(--radius) var(--radius);
+  overflow: hidden;
+  border-top: 1px solid rgba(148, 163, 184, 0.35);
+  background: #000;
+  box-shadow:
+    inset 0 0 32px rgba(0, 200, 255, 0.25),
+    0 0 32px rgba(0, 200, 255, 0.4);
+}
+
+#playerFrame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #000;
+}
+
+/* FULLSCREEN MODE */
+:fullscreen #gamePlayer,
+#gamePlayer:fullscreen {
+  border-radius: 0;
+  width: 100vw;
+  height: 100vh;
+  box-shadow: none;
+}
+
+:fullscreen .player-frame,
+#gamePlayer:fullscreen .player-frame {
+  height: calc(100vh - 48px);
+}
