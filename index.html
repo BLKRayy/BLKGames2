@@ -1,306 +1,185 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BLK Arcade</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-</head>
-<body class="theme-dark">
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>BLK Launcher</title> <link rel="stylesheet" href="style.css"> </head> <body>
 
-  <!-- LOCKDOWN -->
-  <div id="lockdownScreen" class="lockdown hidden">
-    <div class="lock-admin-top">
-      <button id="lockAdminBtn" class="btn btn-ghost">ADMIN</button>
+<!-- LOCKDOWN OVERLAY --> <div id="lockdownOverlay" class="hidden lockdown-overlay"> <div class="lockdown-box glass"> <h2>LOCKDOWN ENABLED</h2> <p>Access is restricted. Enter admin code to continue.</p> <input id="lockdownInput" class="input" placeholder="Admin code..."> <button id="lockdownSubmit" class="btn btn-primary">UNLOCK</button> <div id="lockdownStatus" class="status-text"></div> </div> </div>
+
+<!-- HEADER --> <header class="topbar glass"> <div class="logo">BLK LAUNCHER</div> <nav class="nav-links"> <button data-nav="home" class="nav-btn">HOME</button> <button data-nav="favorites" class="nav-btn">FAVORITES</button> <button data-nav="recent" class="nav-btn">RECENT</button> <button data-nav="all" class="nav-btn">ALL GAMES</button> <button data-nav="request" class="nav-btn">REQUEST</button> <button data-nav="profile" class="nav-btn">PROFILE</button> <button data-nav="admin" class="nav-btn admin-btn">ADMIN</button> </nav> </header>
+
+<main>
+
+<!-- HERO -->
+<section class="hero glass">
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <h1 id="heroTitle">Featured Game</h1>
+    <p id="heroDesc">Jump in and play instantly.</p>
+    <div class="hero-meta">
+      <span id="heroCategory">Category</span>
+      <span id="heroTag">Featured</span>
     </div>
-    <div class="lock-card glass">
-      <div class="lock-icon">🔒</div>
-      <h1>ACCESS RESTRICTED</h1>
-      <h2>GLOBAL LOCKDOWN ACTIVE</h2>
-      <div class="lock-row">
-        <div class="lock-label">CURRENT TIME</div>
-        <div id="lockCurrentTime" class="lock-value"></div>
-      </div>
-      <p class="lock-text" id="lockMsgText">This arcade is currently locked by an administrator.</p>
-      <div class="lock-row">
-        <div class="lock-label">NEXT UNLOCK</div>
-        <div id="lockNextUnlock" class="lock-value"></div>
-      </div>
-      <p class="lock-sub">This page will automatically unlock when access is restored.</p>
-      <button id="lockOverrideBtn" class="btn btn-outline">ADMIN OVERRIDE</button>
+    <button id="heroPlay" class="btn btn-primary">PLAY</button>
+  </div>
+</section>
+
+<!-- SEARCH + FILTER -->
+<section class="search-panel glass">
+  <input id="searchInput" class="input" placeholder="Search games...">
+  <select id="categoryFilter" class="input"></select>
+</section>
+
+<!-- HOME PANELS -->
+<section id="section-home" class="section-grid">
+
+  <section class="panel glass home-panel">
+    <div class="panel-header">
+      <h2>Trending</h2>
+      <span class="panel-sub">Most active this week.</span>
+    </div>
+    <div id="trendingGames" class="game-grid"></div>
+  </section>
+
+  <section class="panel glass home-panel">
+    <div class="panel-header">
+      <h2>Recently Added</h2>
+      <span class="panel-sub">New to the library.</span>
+    </div>
+    <div id="recentlyAddedGames" class="game-grid"></div>
+  </section>
+
+  <section class="panel glass home-panel">
+    <div class="panel-header">
+      <h2>Your Favorites</h2>
+      <span class="panel-sub">Quick access to starred games.</span>
+    </div>
+    <div id="favoriteGames" class="game-grid"></div>
+  </section>
+
+  <section class="panel glass home-panel">
+    <div class="panel-header">
+      <h2>Recently Played</h2>
+      <span class="panel-sub">Jump back in.</span>
+    </div>
+    <div id="recentGames" class="game-grid"></div>
+  </section>
+
+  <section class="panel glass home-panel">
+    <div class="panel-header">
+      <h2>All Games</h2>
+      <span class="panel-sub">Browse the full library.</span>
+    </div>
+    <div id="allGames" class="game-grid"></div>
+  </section>
+
+</section>
+<!-- FAVORITES PAGE -->
+<section id="section-favorites" class="section-grid hidden">
+  <h2 class="page-title">Your Favorites</h2>
+  <div id="favoritesPage" class="game-grid"></div>
+</section>
+
+<!-- RECENT PAGE -->
+<section id="section-recent" class="section-grid hidden">
+  <h2 class="page-title">Recently Played</h2>
+  <div id="recentPage" class="game-grid"></div>
+</section>
+
+<!-- ALL GAMES PAGE -->
+<section id="section-all" class="section-grid hidden">
+  <h2 class="page-title">All Games</h2>
+  <div id="allGamesPage" class="game-grid"></div>
+</section>
+
+<!-- REQUEST PAGE -->
+<section id="section-request" class="section-grid hidden">
+  <h2 class="page-title">Request a Game</h2>
+  <div class="panel glass request-box">
+    <input id="requestInput" class="input" placeholder="Game name...">
+    <textarea id="requestDetails" class="input" placeholder="Details (optional)"></textarea>
+    <button id="requestSubmit" class="btn btn-primary">Submit Request</button>
+    <div id="requestStatus" class="status-text"></div>
+  </div>
+</section>
+
+<!-- PROFILE PAGE -->
+<section id="section-profile" class="section-grid hidden">
+  <h2 class="page-title">Your Profile</h2>
+  <div class="profile-box glass">
+    <div class="profile-row">
+      <span class="label">Username:</span>
+      <span id="profileName" class="value"></span>
+    </div>
+    <div class="profile-row">
+      <span class="label">XP:</span>
+      <span id="profileXP" class="value"></span>
+    </div>
+    <div class="profile-row">
+      <span class="label">Level:</span>
+      <span id="profileLevel" class="value"></span>
+    </div>
+    <div class="profile-row">
+      <span class="label">Achievements:</span>
+      <ul id="profileAchievements" class="achievement-list"></ul>
     </div>
   </div>
+</section>
 
-  <!-- PARTICLES -->
-  <div class="particle-layer">
-    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
-    <div class="particle"></div><div class="particle"></div>
+<!-- GAME PLAYER -->
+<section id="section-player" class="hidden">
+  <div class="player-container glass">
+    <iframe id="gameFrame" class="game-frame"></iframe>
+    <button id="closePlayer" class="btn btn-danger close-btn">Close</button>
+  </div>
+</section>
+
+<!-- FULLSCREEN MODAL -->
+<div id="fullscreenModal" class="fullscreen-modal hidden">
+  <div class="modal-content glass">
+    <iframe id="fullscreenFrame" class="fullscreen-frame"></iframe>
+    <button id="modalClose" class="btn btn-danger modal-close">X</button>
+  </div>
+</div>
+
+<!-- SETTINGS PANEL -->
+<section id="section-settings" class="section-grid hidden">
+  <h2 class="page-title">Settings</h2>
+  <div class="panel glass settings-box">
+    <button id="toggleTheme" class="btn btn-primary">Toggle Theme</button>
+    <button id="clearData" class="btn btn-danger">Clear All Data</button>
+  </div>
+</section>
+
+<!-- AI TUTOR -->
+<section id="section-ai" class="section-grid hidden">
+  <h2 class="page-title">AI Tutor</h2>
+  <div class="panel glass ai-box">
+    <textarea id="aiInput" class="input" placeholder="Ask something..."></textarea>
+    <button id="aiSubmit" class="btn btn-primary">Ask</button>
+    <div id="aiOutput" class="ai-output"></div>
+  </div>
+</section>
+
+<!-- ADMIN PANEL V2 -->
+<section id="section-admin" class="section-grid hidden">
+  <h2 class="page-title">Admin Panel</h2>
+
+  <div class="panel glass admin-box">
+    <h3>Game Requests</h3>
+    <div id="adminRequests" class="admin-list"></div>
   </div>
 
-  <!-- HEADER -->
-  <header class="appbar glass">
-    <div class="appbar-left">
-      <div class="logo-mark">BLK</div>
-      <div class="logo-text">
-        <div class="logo-title">BLK ARCADE</div>
-        <div class="logo-sub">UNBLOCKED • CYBER • CLEAN</div>
-      </div>
-    </div>
-
-    <div class="appbar-center">
-      <nav class="nav-links">
-        <button class="nav-link active" data-section="home">HOME</button>
-        <button class="nav-link" data-section="favorites">FAVORITES</button>
-        <button class="nav-link" data-section="recent">RECENT</button>
-        <button class="nav-link" data-section="all">ALL GAMES</button>
-        <button class="nav-link" data-section="request">REQUEST</button>
-        <button class="nav-link" data-section="profile">PROFILE</button>
-      </nav>
-    </div>
-
-    <div class="appbar-right">
-      <button id="themeToggle" class="icon-btn" title="Toggle theme">☾</button>
-      <button id="adminTopBtn" class="btn btn-outline small">ADMIN</button>
-    </div>
-  </header>
-
-  <main class="main-shell">
-
-    <!-- HERO -->
-    <section class="hero glass">
-      <div class="hero-left">
-        <div class="hero-tag">FEATURED GAME</div>
-        <h1 id="heroTitle">Retro Bowl</h1>
-        <p id="heroDesc">Lead your team to glory in this nostalgic football sim.</p>
-        <div class="hero-meta">
-          <span id="heroCategory" class="pill">Sports</span>
-          <span id="heroTag" class="pill pill-soft">Classic</span>
-        </div>
-        <button id="heroPlay" class="btn btn-primary large">PLAY NOW</button>
-      </div>
-      <div class="hero-right">
-        <div class="hero-frame">
-          <div class="hero-glow"></div>
-          <div class="hero-inner">
-            <div class="hero-game-title" id="heroGameName">RETRO BOWL</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SEARCH BAR -->
-    <section class="toolbar glass">
-      <div class="toolbar-left">
-        <input id="searchInput" class="input" placeholder="Search for titles... (press / to focus)">
-      </div>
-      <div class="toolbar-right">
-        <select id="categoryFilter" class="select"></select>
-      </div>
-    </section>
-
-    <!-- HOME -->
-    <section id="section-home" class="section-grid active">
-
-      <!-- TRENDING -->
-      <section class="panel glass">
-        <div class="panel-header">
-          <h2>Trending</h2>
-          <span class="panel-sub">What’s hot right now.</span>
-        </div>
-        <div id="trendingGames" class="game-grid"></div>
-      </section>
-
-      <!-- RECENTLY ADDED -->
-      <section class="panel glass">
-        <div class="panel-header">
-          <h2>Recently Added</h2>
-          <span class="panel-sub">New arrivals.</span>
-        </div>
-        <div id="recentlyAddedGames" class="game-grid"></div>
-      </section>
-
-      <!-- FAVORITES -->
-      <section class="panel glass">
-        <div class="panel-header">
-          <h2>Favorites</h2>
-          <span class="panel-sub">Star games to pin them here.</span>
-        </div>
-        <div id="favoriteGames" class="game-grid"></div>
-      </section>
-
-      <!-- RECENT -->
-      <section class="panel glass">
-        <div class="panel-header">
-          <h2>Recently Played</h2>
-          <span class="panel-sub">Your latest sessions.</span>
-        </div>
-        <div id="recentGames" class="game-grid"></div>
-      </section>
-
-      <!-- ALL GAMES -->
-      <section class="panel glass">
-        <div class="panel-header">
-          <h2>All Games</h2>
-          <span class="panel-sub">Browse the full library.</span>
-        </div>
-        <div id="allGames" class="game-grid"></div>
-      </section>
-
-    </section>
-
-    <!-- FAVORITES PAGE -->
-    <section id="section-favorites" class="section-grid hidden">
-      <section class="panel glass">
-        <div class="panel-header">
-          <h2>Favorites</h2>
-          <span class="panel-sub">Your starred games.</span>
-        </div>
-        <div id="favoriteGamesSolo" class="game-grid"></div>
-      </section>
-    </section>
-
-    <!-- RECENT PAGE -->
-    <section id="section-recent" class="section-grid hidden">
-      <section class="panel glass">
-        <div class="panel-header">
-          <h2>Recently Played</h2>
-          <span class="panel-sub">Jump back in.</span>
-        </div>
-        <div id="recentGamesSolo" class="game-grid"></div>
-      </section>
-    </section>
-
-    <!-- ALL GAMES PAGE -->
-    <section id="section-all" class="section-grid hidden">
-      <section class="panel glass">
-        <div class="panel-header">
-          <h2>All Games</h2>
-          <span class="panel-sub">Every title in the library.</span>
-        </div>
-        <div id="allGamesSolo" class="game-grid"></div>
-      </section>
-    </section>
-
-    <!-- REQUEST PAGE -->
-    <section id="section-request" class="section-grid hidden">
-      <section class="panel glass">
-        <div class="panel-header">
-          <h2>Request a Game</h2>
-          <span class="panel-sub">Tell the admin what to add next.</span>
-        </div>
-        <textarea id="requestInput" class="textarea" placeholder="Game name, link, and why it should be added..."></textarea>
-        <div class="panel-footer">
-          <button id="requestSubmit" class="btn btn-primary">SUBMIT REQUEST</button>
-          <div id="requestStatus" class="status-text"></div>
-        </div>
-      </section>
-    </section>
-
-    <!-- PROFILE PAGE (NEW) -->
-    <section id="section-profile" class="section-grid hidden">
-
-      <!-- XP + LEVEL -->
-      <section class="panel glass profile-card">
-        <div class="profile-title-row">
-          <h2>PROFILE</h2>
-          <span id="profileLevelTag" class="profile-level-tag">LVL 1</span>
-        </div>
-
-        <div class="xp-bar">
-          <div id="xpBarFill" class="xp-bar-fill"></div>
-        </div>
-
-        <div class="xp-meta">
-          <span id="xpCurrent">0 XP</span>
-          <span id="xpNext">Next: 100 XP</span>
-        </div>
-      </section>
-
-      <!-- ACHIEVEMENTS -->
-      <section class="panel glass profile-card">
-        <div class="panel-header">
-          <h3>Achievements</h3>
-        </div>
-        <div id="achievementsGrid" class="achievements-grid"></div>
-      </section>
-
-      <!-- STATS -->
-      <section class="panel glass profile-card">
-        <div class="panel-header">
-          <h3>Stats</h3>
-        </div>
-        <div class="stats-grid">
-          <div class="stat-item">
-            <span class="stat-label">Total XP</span>
-            <span id="statTotalXP" class="stat-value">0</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">Total Play Time</span>
-            <span id="statTotalTime" class="stat-value">0 min</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-label">Total Plays</span>
-            <span id="statTotalPlays" class="stat-value">0</span>
-          </div>
-        </div>
-      </section>
-
-    </section>
-
-    <!-- PLAYER -->
-    <section id="gamePlayer" class="panel glass hidden" style="padding:0;margin-top:18px;">
-      <div class="player-topbar">
-        <div id="playerTitle" class="player-title">GAME</div>
-        <div class="player-controls">
-          <button id="playerSettings" class="icon-btn" title="Settings">⚙</button>
-          <button id="playerNewTab" class="icon-btn" title="Open in new tab">↗</button>
-          <button id="playerFullscreen" class="icon-btn" title="Fullscreen">⛶</button>
-          <button id="playerClose" class="icon-btn" title="Close">✕</button>
-        </div>
-      </div>
-      <div class="player-frame">
-        <iframe id="playerFrame" src="" allowfullscreen></iframe>
-      </div>
-    </section>
-
-    <!-- FULLSCREEN MODAL -->
-    <div id="playerModal" class="hidden modal-overlay">
-      <div class="modal-frame">
-        <iframe id="modalFrame" src="" allowfullscreen></iframe>
-        <button id="modalClose" class="icon-btn modal-close">✕</button>
-      </div>
-    </div>
-
-    <!-- SETTINGS -->
-    <div id="settingsPanel" class="hidden settings-panel glass">
-      <h3 class="settings-title">Game Settings</h3>
-      <label class="settings-label">Volume</label>
-      <input id="settingsVolume" type="range" min="0" max="100" value="100">
-      <button id="settingsReset" class="btn btn-outline small">Reset Save Data</button>
-      <button id="settingsClose" class="btn btn-ghost small">Close</button>
-    </div>
-
-  </main>
-
-  <!-- AI -->
-  <button id="aiButton" class="ai-orb">?</button>
-
-  <div id="aiModal" class="ai-modal hidden">
-    <div class="ai-dialog glass">
-      <div class="ai-header">
-        <div class="ai-title">BLK AI TUTOR</div>
-        <button id="aiClose" class="icon-btn">✕</button>
-      </div>
-      <div id="aiMessages" class="ai-messages"></div>
-      <div class="ai-input-row">
-        <input id="aiInput" class="input" placeholder="Ask a question (K–College level)...">
-        <button id="aiSend" class="btn btn-primary small">SEND</button>
-      </div>
-    </div>
+  <div class="panel glass admin-box">
+    <h3>Lockdown Control</h3>
+    <button id="enableLockdown" class="btn btn-danger">Enable Lockdown</button>
+    <button id="disableLockdown" class="btn btn-primary">Disable Lockdown</button>
   </div>
 
-  <script src="script.js"></script>
-</body>
-</html>
+  <div class="panel glass admin-box">
+    <h3>Game Library</h3>
+    <button id="addGame" class="btn btn-primary">Add Game</button>
+    <div id="adminGameList" class="admin-list"></div>
+  </div>
+
+</section>
+
+</main>
+
+<script src="script.js"></script> </body> </html>
