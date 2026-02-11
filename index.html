@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLK Arcade</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+</head>
+
+<body class="theme-dark">
+
+  <!-- PARTICLE BACKGROUND -->
+  <div class="particle-layer">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <!-- GLOBAL LOCKDOWN SCREEN -->
+  <div id="lockdownScreen" class="lockdown hidden">
+    <div class="lock-admin-top">
+      <button id="lockAdminBtn" class="pixel-btn small">ADMIN</button>
+    </div>
+
+    <div class="lock-card">
+      <div class="lock-icon">🔒</div>
+      <h1>ACCESS RESTRICTED</h1>
+      <h2>GLOBAL LOCKDOWN ACTIVE</h2>
+
+      <div class="lock-row">
+        <div class="lock-label">CURRENT TIME</div>
+        <div id="lockCurrentTime" class="lock-value"></div>
+      </div>
+
+      <p class="lock-text" id="lockMsgText">
+        This arcade is currently locked by an administrator.
+      </p>
+
+      <div class="lock-row">
+        <div class="lock-label">NEXT UNLOCK</div>
+        <div id="lockNextUnlock" class="lock-value"></div>
+      </div>
+
+      <p class="lock-sub">
+        This page will automatically unlock when access is restored.
+      </p>
+
+      <button id="lockOverrideBtn" class="pixel-btn">
+        ADMIN OVERRIDE
+      </button>
+    </div>
+  </div>
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="top-left">
+      <button id="adminTopBtn" class="pixel-btn small">ADMIN</button>
+    </div>
+    <div class="top-center">
+      <div class="logo-title">BLK ARCADE</div>
+      <div class="logo-sub">UNBLOCKED • RETRO • CLEAN</div>
+    </div>
+    <div class="top-right">
+      <span id="serverStatus" class="status-pill">SERVER: ONLINE</span>
+      <button id="themeToggle" class="pixel-btn small">THEME</button>
+    </div>
+  </header>
+
+  <!-- MAIN LAYOUT -->
+  <main class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <button class="nav-btn active" data-section="home">HOME</button>
+      <button class="nav-btn" data-section="favorites">FAVORITES</button>
+      <button class="nav-btn" data-section="recent">RECENT</button>
+      <button class="nav-btn" data-section="all">ALL GAMES</button>
+      <button class="nav-btn" data-section="request">REQUEST GAME</button>
+    </aside>
+
+    <!-- CONTENT -->
+    <section class="content">
+
+      <!-- HERO FEATURED -->
+      <section class="panel hero-panel">
+        <div class="hero-left">
+          <div class="hero-tag">FEATURED GAME</div>
+          <h2 id="heroTitle">Retro Bowl</h2>
+          <p id="heroDesc">
+            Lead your team to glory in this nostalgic football sim.
+          </p>
+          <button id="heroPlay" class="pixel-btn glow">PLAY NOW</button>
+        </div>
+        <div class="hero-right">
+          <div class="hero-frame">
+            <div class="hero-game-title" id="heroGameName">RETRO BOWL</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SEARCH + FILTERS -->
+      <section class="panel search-panel">
+        <input id="searchInput" class="search-input" placeholder="Search for titles... (/ to focus)">
+        <select id="categoryFilter" class="search-select"></select>
+      </section>
+
+      <!-- FAVORITES -->
+      <section class="panel" id="section-favorites">
+        <div class="panel-header">
+          <h3>FAVORITE GAMES</h3>
+          <span class="panel-sub">Star games to pin them here.</span>
+        </div>
+        <div id="favoriteGames" class="game-grid"></div>
+      </section>
+
+      <!-- RECENTLY PLAYED -->
+      <section class="panel" id="section-recent">
+        <div class="panel-header">
+          <h3>RECENTLY PLAYED</h3>
+          <span class="panel-sub">Offline caching for these is coming.</span>
+        </div>
+        <div id="recentGames" class="game-grid"></div>
+      </section>
+
+      <!-- ALL GAMES -->
+      <section class="panel" id="section-all">
+        <div class="panel-header">
+          <h3>ALL GAMES</h3>
+          <span class="panel-sub">Browse the full library.</span>
+        </div>
+        <div id="allGames" class="game-grid"></div>
+      </section>
+
+      <!-- REQUEST GAME -->
+      <section class="panel hidden" id="section-request">
+        <div class="panel-header">
+          <h3>REQUEST A GAME</h3>
+          <span class="panel-sub">Tell the admin what to add next.</span>
+        </div>
+        <textarea id="requestInput" class="request-box" placeholder="Game name, link, and why it should be added..."></textarea>
+        <button id="requestSubmit" class="pixel-btn glow">SUBMIT REQUEST</button>
+        <div id="requestStatus" class="request-status"></div>
+      </section>
+
+    </section>
+  </main>
+
+  <!-- AI ORB -->
+  <button id="aiButton" class="ai-orb">?</button>
+
+  <!-- AI MODAL -->
+  <div id="aiModal" class="ai-modal hidden">
+    <div class="ai-header">
+      <div class="ai-title">BLK AI TUTOR</div>
+      <button id="aiClose" class="ai-close">X</button>
+    </div>
+    <div id="aiMessages" class="ai-messages"></div>
+    <div class="ai-input-row">
+      <input id="aiInput" placeholder="Ask a question (K–College level)...">
+      <button id="aiSend" class="pixel-btn small">SEND</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
