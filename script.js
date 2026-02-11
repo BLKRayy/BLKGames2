@@ -59,16 +59,16 @@ function renderAll() {
     (cat === "All" || g.category === cat)
   );
 
-  // main home sections
   renderGames(filtered, "allGames");
+
   const favGames = games.filter(g => profile.favorites.includes(g.url));
   renderGames(favGames, "favoriteGames");
+
   const recentGames = profile.recent
     .map(url => games.find(g => g.url === url))
     .filter(Boolean);
   renderGames(recentGames, "recentGames");
 
-  // solo sections
   renderGames(favGames, "favoriteGamesSolo");
   renderGames(recentGames, "recentGamesSolo");
   renderGames(filtered, "allGamesSolo");
@@ -81,12 +81,15 @@ function updateHero() {
   const featured = games.filter(g => g.featured);
   heroGame = featured[0] || games[0];
   if (!heroGame) return;
+
   document.getElementById("heroTitle").textContent = heroGame.name;
   document.getElementById("heroGameName").textContent = heroGame.name.toUpperCase();
   document.getElementById("heroDesc").textContent =
     heroGame.description || "Jump in and play instantly.";
   document.getElementById("heroCategory").textContent = heroGame.category || "Game";
   document.getElementById("heroTag").textContent = heroGame.tag || "Featured";
+
+  document.getElementById("heroPlay").onclick = () => openGame(heroGame.url);
 }
 
 /* FAVORITES + RECENT */
@@ -98,14 +101,58 @@ function toggleFavorite(url) {
   renderAll();
 }
 
-function openGame(url) {
-  window.open(url, "_blank");
-  const i = profile.recent.indexOf(url);
-  if (i !== -1) profile.recent.splice(i, 1);
-  profile.recent.unshift(url);
-  if (profile.recent.length > 12) profile.recent.pop();
-  saveProfile();
-  renderAll();
+/* HYBRID GAME PLAYER */
+function setupPlayer() {
+  const player = document.getElementById("gamePlayer");
+  const frame = document.getElementById("playerFrame");
+  const title = document.getElementById("playerTitle");
+  const closeBtn = document.getElementById("playerClose");
+  const fsBtn = document.getElementById("playerFullscreen");
+  const newTabBtn = document.getElementById("playerNewTab");
+
+  function openPlayer(game) {
+    title.textContent = game.name.toUpperCase();
+    frame.src = game.url;
+    player.classList.remove("hidden");
+
+    window.scrollTo({
+      top: player.offsetTop - 20,
+      behavior: "smooth"
+    });
+  }
+
+  function closePlayer() {
+    frame.src = "";
+    player.classList.add("hidden");
+  }
+
+  closeBtn.onclick = closePlayer;
+
+  fsBtn.onclick = () => {
+    if (!document.fullscreenElement) {
+      player.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  };
+
+  newTabBtn.onclick = () => {
+    if (frame.src) window.open(frame.src, "_blank");
+  };
+
+  window.openGame = url => {
+    const game = games.find(g => g.url === url);
+    if (!game) return;
+
+    const i = profile.recent.indexOf(url);
+    if (i !== -1) profile.recent.splice(i, 1);
+    profile.recent.unshift(url);
+    if (profile.recent.length > 12) profile.recent.pop();
+    saveProfile();
+
+    openPlayer(game);
+    renderAll();
+  };
 }
 
 /* PROFILE STORAGE */
@@ -178,7 +225,7 @@ function setupRequests() {
   };
 }
 
-/* AI TUTOR (simple local stub) */
+/* AI TUTOR */
 function setupAI() {
   const orb = document.getElementById("aiButton");
   const modal = document.getElementById("aiModal");
@@ -203,7 +250,6 @@ function setupAI() {
     if (!q) return;
     addMessage("You", q);
     input.value = "";
-    // simple canned response
     addMessage("Tutor", "I can't access the internet here, but try breaking the problem into smaller steps and checking each one.");
   }
 
@@ -298,7 +344,6 @@ function checkLockdown() {
     return;
   }
 
-  // active lockdown
   overlay.classList.remove("hidden");
   updateLockdownUI(data);
   const interval = setInterval(() => {
@@ -346,6 +391,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   setupTheme();
   setupSearch();
   setupAdminButton();
+  setupPlayer();
   renderAll();
   checkLockdown();
 });
