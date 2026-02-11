@@ -9,49 +9,34 @@
 </head>
 <body class="theme-dark">
 
-  <!-- LOCKDOWN OVERLAY -->
   <div id="lockdownScreen" class="lockdown hidden">
     <div class="lock-admin-top">
       <button id="lockAdminBtn" class="btn btn-ghost">ADMIN</button>
     </div>
-
     <div class="lock-card glass">
       <div class="lock-icon">🔒</div>
       <h1>ACCESS RESTRICTED</h1>
       <h2>GLOBAL LOCKDOWN ACTIVE</h2>
-
       <div class="lock-row">
         <div class="lock-label">CURRENT TIME</div>
         <div id="lockCurrentTime" class="lock-value"></div>
       </div>
-
-      <p class="lock-text" id="lockMsgText">
-        This arcade is currently locked by an administrator.
-      </p>
-
+      <p class="lock-text" id="lockMsgText">This arcade is currently locked by an administrator.</p>
       <div class="lock-row">
         <div class="lock-label">NEXT UNLOCK</div>
         <div id="lockNextUnlock" class="lock-value"></div>
       </div>
-
-      <p class="lock-sub">
-        This page will automatically unlock when access is restored.
-      </p>
-
-      <button id="lockOverrideBtn" class="btn btn-outline">
-        ADMIN OVERRIDE
-      </button>
+      <p class="lock-sub">This page will automatically unlock when access is restored.</p>
+      <button id="lockOverrideBtn" class="btn btn-outline">ADMIN OVERRIDE</button>
     </div>
   </div>
 
-  <!-- PARTICLE BACKGROUND -->
   <div class="particle-layer">
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
     <div class="particle"></div><div class="particle"></div>
   </div>
 
-  <!-- TOP APP BAR -->
   <header class="appbar glass">
     <div class="appbar-left">
       <div class="logo-mark">BLK</div>
@@ -60,7 +45,6 @@
         <div class="logo-sub">UNBLOCKED • CYBER • CLEAN</div>
       </div>
     </div>
-
     <div class="appbar-center">
       <nav class="nav-links">
         <button class="nav-link active" data-section="home">HOME</button>
@@ -70,24 +54,19 @@
         <button class="nav-link" data-section="request">REQUEST</button>
       </nav>
     </div>
-
     <div class="appbar-right">
       <button id="themeToggle" class="icon-btn" title="Toggle theme">☾</button>
       <button id="adminTopBtn" class="btn btn-outline small">ADMIN</button>
     </div>
   </header>
 
-  <!-- MAIN CONTENT -->
   <main class="main-shell">
 
-    <!-- HERO FEATURED GAME -->
     <section class="hero glass">
       <div class="hero-left">
         <div class="hero-tag">FEATURED GAME</div>
         <h1 id="heroTitle">Retro Bowl</h1>
-        <p id="heroDesc">
-          Lead your team to glory in this nostalgic football sim.
-        </p>
+        <p id="heroDesc">Lead your team to glory in this nostalgic football sim.</p>
         <div class="hero-meta">
           <span id="heroCategory" class="pill">Sports</span>
           <span id="heroTag" class="pill pill-soft">Classic</span>
@@ -104,7 +83,6 @@
       </div>
     </section>
 
-    <!-- SEARCH + FILTERS -->
     <section class="toolbar glass">
       <div class="toolbar-left">
         <input id="searchInput" class="input" placeholder="Search for titles... (press / to focus)">
@@ -114,7 +92,6 @@
       </div>
     </section>
 
-    <!-- SECTIONS -->
     <section id="section-home" class="section-grid active">
       <section class="panel glass">
         <div class="panel-header">
@@ -185,28 +162,40 @@
       </section>
     </section>
 
-    <!-- GAME PLAYER (HYBRID MODE) -->
     <section id="gamePlayer" class="panel glass hidden" style="padding:0;margin-top:18px;">
       <div class="player-topbar">
         <div id="playerTitle" class="player-title">GAME</div>
         <div class="player-controls">
+          <button id="playerSettings" class="icon-btn" title="Settings">⚙</button>
           <button id="playerNewTab" class="icon-btn" title="Open in new tab">↗</button>
           <button id="playerFullscreen" class="icon-btn" title="Fullscreen">⛶</button>
           <button id="playerClose" class="icon-btn" title="Close">✕</button>
         </div>
       </div>
-
       <div class="player-frame">
         <iframe id="playerFrame" src="" allowfullscreen></iframe>
       </div>
     </section>
 
+    <div id="playerModal" class="hidden modal-overlay">
+      <div class="modal-frame">
+        <iframe id="modalFrame" src="" allowfullscreen></iframe>
+        <button id="modalClose" class="icon-btn modal-close">✕</button>
+      </div>
+    </div>
+
+    <div id="settingsPanel" class="hidden settings-panel glass">
+      <h3 class="settings-title">Game Settings</h3>
+      <label class="settings-label">Volume</label>
+      <input id="settingsVolume" type="range" min="0" max="100" value="100">
+      <button id="settingsReset" class="btn btn-outline small">Reset Save Data</button>
+      <button id="settingsClose" class="btn btn-ghost small">Close</button>
+    </div>
+
   </main>
 
-  <!-- AI ORB -->
   <button id="aiButton" class="ai-orb">?</button>
 
-  <!-- AI MODAL -->
   <div id="aiModal" class="ai-modal hidden">
     <div class="ai-dialog glass">
       <div class="ai-header">
