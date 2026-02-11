@@ -7,28 +7,15 @@
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
 </head>
-
 <body class="theme-dark">
 
-  <!-- PARTICLE BACKGROUND -->
-  <div class="particle-layer">
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-  </div>
-
-  <!-- GLOBAL LOCKDOWN SCREEN -->
+  <!-- LOCKDOWN OVERLAY -->
   <div id="lockdownScreen" class="lockdown hidden">
     <div class="lock-admin-top">
-      <button id="lockAdminBtn" class="pixel-btn small">ADMIN</button>
+      <button id="lockAdminBtn" class="btn btn-ghost">ADMIN</button>
     </div>
 
-    <div class="lock-card">
+    <div class="lock-card glass">
       <div class="lock-icon">🔒</div>
       <h1>ACCESS RESTRICTED</h1>
       <h2>GLOBAL LOCKDOWN ACTIVE</h2>
@@ -51,104 +38,153 @@
         This page will automatically unlock when access is restored.
       </p>
 
-      <button id="lockOverrideBtn" class="pixel-btn">
+      <button id="lockOverrideBtn" class="btn btn-outline">
         ADMIN OVERRIDE
       </button>
     </div>
   </div>
 
-  <!-- TOP BAR -->
-  <header class="topbar">
-    <div class="top-left">
-      <button id="adminTopBtn" class="pixel-btn small">ADMIN</button>
+  <!-- PARTICLE BACKGROUND -->
+  <div class="particle-layer">
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+  </div>
+
+  <!-- TOP APP BAR -->
+  <header class="appbar glass">
+    <div class="appbar-left">
+      <div class="logo-mark">BLK</div>
+      <div class="logo-text">
+        <div class="logo-title">BLK ARCADE</div>
+        <div class="logo-sub">UNBLOCKED • CYBER • CLEAN</div>
+      </div>
     </div>
-    <div class="top-center">
-      <div class="logo-title">BLK ARCADE</div>
-      <div class="logo-sub">UNBLOCKED • RETRO • CLEAN</div>
+
+    <div class="appbar-center">
+      <nav class="nav-links">
+        <button class="nav-link active" data-section="home">HOME</button>
+        <button class="nav-link" data-section="favorites">FAVORITES</button>
+        <button class="nav-link" data-section="recent">RECENT</button>
+        <button class="nav-link" data-section="all">ALL GAMES</button>
+        <button class="nav-link" data-section="request">REQUEST</button>
+      </nav>
     </div>
-    <div class="top-right">
-      <span id="serverStatus" class="status-pill">SERVER: ONLINE</span>
-      <button id="themeToggle" class="pixel-btn small">THEME</button>
+
+    <div class="appbar-right">
+      <button id="themeToggle" class="icon-btn" title="Toggle theme">☾</button>
+      <button id="adminTopBtn" class="btn btn-outline small">ADMIN</button>
     </div>
   </header>
 
-  <!-- MAIN LAYOUT -->
-  <main class="layout">
+  <!-- MAIN CONTENT -->
+  <main class="main-shell">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <button class="nav-btn active" data-section="home">HOME</button>
-      <button class="nav-btn" data-section="favorites">FAVORITES</button>
-      <button class="nav-btn" data-section="recent">RECENT</button>
-      <button class="nav-btn" data-section="all">ALL GAMES</button>
-      <button class="nav-btn" data-section="request">REQUEST GAME</button>
-    </aside>
-
-    <!-- CONTENT -->
-    <section class="content">
-
-      <!-- HERO FEATURED -->
-      <section class="panel hero-panel">
-        <div class="hero-left">
-          <div class="hero-tag">FEATURED GAME</div>
-          <h2 id="heroTitle">Retro Bowl</h2>
-          <p id="heroDesc">
-            Lead your team to glory in this nostalgic football sim.
-          </p>
-          <button id="heroPlay" class="pixel-btn glow">PLAY NOW</button>
+    <!-- HERO FEATURED GAME -->
+    <section class="hero glass">
+      <div class="hero-left">
+        <div class="hero-tag">FEATURED GAME</div>
+        <h1 id="heroTitle">Retro Bowl</h1>
+        <p id="heroDesc">
+          Lead your team to glory in this nostalgic football sim.
+        </p>
+        <div class="hero-meta">
+          <span id="heroCategory" class="pill">Sports</span>
+          <span id="heroTag" class="pill pill-soft">Classic</span>
         </div>
-        <div class="hero-right">
-          <div class="hero-frame">
+        <button id="heroPlay" class="btn btn-primary large">PLAY NOW</button>
+      </div>
+      <div class="hero-right">
+        <div class="hero-frame">
+          <div class="hero-glow"></div>
+          <div class="hero-inner">
             <div class="hero-game-title" id="heroGameName">RETRO BOWL</div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- SEARCH + FILTERS -->
-      <section class="panel search-panel">
-        <input id="searchInput" class="search-input" placeholder="Search for titles... (/ to focus)">
-        <select id="categoryFilter" class="search-select"></select>
-      </section>
+    <!-- SEARCH + FILTERS -->
+    <section class="toolbar glass">
+      <div class="toolbar-left">
+        <input id="searchInput" class="input" placeholder="Search for titles... (press / to focus)">
+      </div>
+      <div class="toolbar-right">
+        <select id="categoryFilter" class="select"></select>
+      </div>
+    </section>
 
-      <!-- FAVORITES -->
-      <section class="panel" id="section-favorites">
+    <!-- SECTIONS -->
+    <section id="section-home" class="section-grid active">
+      <section class="panel glass">
         <div class="panel-header">
-          <h3>FAVORITE GAMES</h3>
+          <h2>Favorites</h2>
           <span class="panel-sub">Star games to pin them here.</span>
         </div>
         <div id="favoriteGames" class="game-grid"></div>
       </section>
 
-      <!-- RECENTLY PLAYED -->
-      <section class="panel" id="section-recent">
+      <section class="panel glass">
         <div class="panel-header">
-          <h3>RECENTLY PLAYED</h3>
-          <span class="panel-sub">Offline caching for these is coming.</span>
+          <h2>Recently Played</h2>
+          <span class="panel-sub">Your latest sessions.</span>
         </div>
         <div id="recentGames" class="game-grid"></div>
       </section>
 
-      <!-- ALL GAMES -->
-      <section class="panel" id="section-all">
+      <section class="panel glass">
         <div class="panel-header">
-          <h3>ALL GAMES</h3>
+          <h2>All Games</h2>
           <span class="panel-sub">Browse the full library.</span>
         </div>
         <div id="allGames" class="game-grid"></div>
       </section>
+    </section>
 
-      <!-- REQUEST GAME -->
-      <section class="panel hidden" id="section-request">
+    <section id="section-favorites" class="section-grid hidden">
+      <section class="panel glass">
         <div class="panel-header">
-          <h3>REQUEST A GAME</h3>
+          <h2>Favorites</h2>
+          <span class="panel-sub">Your starred games.</span>
+        </div>
+        <div id="favoriteGamesSolo" class="game-grid"></div>
+      </section>
+    </section>
+
+    <section id="section-recent" class="section-grid hidden">
+      <section class="panel glass">
+        <div class="panel-header">
+          <h2>Recently Played</h2>
+          <span class="panel-sub">Jump back in.</span>
+        </div>
+        <div id="recentGamesSolo" class="game-grid"></div>
+      </section>
+    </section>
+
+    <section id="section-all" class="section-grid hidden">
+      <section class="panel glass">
+        <div class="panel-header">
+          <h2>All Games</h2>
+          <span class="panel-sub">Every title in the library.</span>
+        </div>
+        <div id="allGamesSolo" class="game-grid"></div>
+      </section>
+    </section>
+
+    <section id="section-request" class="section-grid hidden">
+      <section class="panel glass">
+        <div class="panel-header">
+          <h2>Request a Game</h2>
           <span class="panel-sub">Tell the admin what to add next.</span>
         </div>
-        <textarea id="requestInput" class="request-box" placeholder="Game name, link, and why it should be added..."></textarea>
-        <button id="requestSubmit" class="pixel-btn glow">SUBMIT REQUEST</button>
-        <div id="requestStatus" class="request-status"></div>
+        <textarea id="requestInput" class="textarea" placeholder="Game name, link, and why it should be added..."></textarea>
+        <div class="panel-footer">
+          <button id="requestSubmit" class="btn btn-primary">SUBMIT REQUEST</button>
+          <div id="requestStatus" class="status-text"></div>
+        </div>
       </section>
-
     </section>
+
   </main>
 
   <!-- AI ORB -->
@@ -156,14 +192,16 @@
 
   <!-- AI MODAL -->
   <div id="aiModal" class="ai-modal hidden">
-    <div class="ai-header">
-      <div class="ai-title">BLK AI TUTOR</div>
-      <button id="aiClose" class="ai-close">X</button>
-    </div>
-    <div id="aiMessages" class="ai-messages"></div>
-    <div class="ai-input-row">
-      <input id="aiInput" placeholder="Ask a question (K–College level)...">
-      <button id="aiSend" class="pixel-btn small">SEND</button>
+    <div class="ai-dialog glass">
+      <div class="ai-header">
+        <div class="ai-title">BLK AI TUTOR</div>
+        <button id="aiClose" class="icon-btn">✕</button>
+      </div>
+      <div id="aiMessages" class="ai-messages"></div>
+      <div class="ai-input-row">
+        <input id="aiInput" class="input" placeholder="Ask a question (K–College level)...">
+        <button id="aiSend" class="btn btn-primary small">SEND</button>
+      </div>
     </div>
   </div>
 
