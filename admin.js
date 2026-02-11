@@ -1,25 +1,94 @@
+// SIMPLE HASH (not cryptographic, but hides raw password)
+function simpleHash(str) {
+  let h = 0;
+  for (const ch of str) h += ch.charCodeAt(0);
+  return h;
+}
+
+const ADMIN_USER = "admin";
+const ADMIN_PASS_HASH = simpleHash("loyal"); // 545
+const SESSION_KEY = "blkAdminSession";
+
+// AUTH GUARD
+function isLoggedIn() {
+  return localStorage.getItem(SESSION_KEY) === "active";
+}
+
+function showLogin() {
+  document.getElementById("loginScreen").classList.remove("hidden");
+  document.getElementById("adminApp").classList.add("hidden");
+}
+
+function showAdmin() {
+  document.getElementById("loginScreen").classList.add("hidden");
+  document.getElementById("adminApp").classList.remove("hidden");
+}
+
+// LOGIN HANDLERS
+function setupLogin() {
+  const userEl = document.getElementById("loginUser");
+  const passEl = document.getElementById("loginPass");
+  const btn = document.getElementById("loginBtn");
+  const err = document.getElementById("loginError");
+
+  function attempt() {
+    const u = userEl.value.trim();
+    const p = passEl.value;
+
+    if (u !== ADMIN_USER || simpleHash(p) !== ADMIN_PASS_HASH) {
+      err.textContent = "Invalid credentials.";
+      return;
+    }
+
+    localStorage.setItem(SESSION_KEY, "active");
+    err.textContent = "";
+    initAdminApp();
+    showAdmin();
+  }
+
+  btn.onclick = attempt;
+  passEl.onkeydown = e => {
+    if (e.key === "Enter") attempt();
+  };
+}
+
+// SIGN OUT
+function setupSignOut() {
+  const btn = document.getElementById("signOutBtn");
+  btn.onclick = () => {
+    localStorage.removeItem(SESSION_KEY);
+    window.location.href = "index.html";
+  };
+}
+
+// NAVIGATION
+function setupNav() {
+  document.querySelectorAll(".nav-btn").forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const target = btn.dataset.section;
+      document.querySelectorAll(".content > .panel").forEach(p => p.classList.add("hidden"));
+      document.getElementById("admin-" + target).classList.remove("hidden");
+    };
+  });
+}
+
+// GAME EDITOR
 let adminGames = [];
 
-/* LOAD GAMES */
 async function loadAdminGames() {
-  const res = await fetch("games.json");
-  adminGames = await res.json();
+  const custom = localStorage.getItem("customGames");
+  if (custom) {
+    adminGames = JSON.parse(custom);
+  } else {
+    const res = await fetch("games.json");
+    adminGames = await res.json();
+  }
   renderGameEditor();
 }
 
-/* NAVIGATION */
-document.querySelectorAll(".nav-btn").forEach(btn => {
-  btn.onclick = () => {
-    document.querySelectorAll(".nav-btn").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
-
-    const target = btn.dataset.section;
-    document.querySelectorAll(".panel").forEach(p => p.classList.add("hidden"));
-    document.getElementById("admin-" + target).classList.remove("hidden");
-  };
-});
-
-/* GAME EDITOR */
 function renderGameEditor() {
   const box = document.getElementById("gameList");
   box.innerHTML = "";
@@ -56,11 +125,10 @@ function editGame(url) {
   const logo = prompt("Logo URL:", g.logo || "");
   const newUrl = prompt("Game URL:", g.url);
 
-  const updated = adminGames.map(x =>
+  adminGames = adminGames.map(x =>
     x.url === url ? { ...x, name, category: cat, tag, logo, url: newUrl } : x
   );
 
-  adminGames = updated;
   saveAdminGames();
   renderGameEditor();
 }
@@ -69,69 +137,78 @@ function saveAdminGames() {
   localStorage.setItem("customGames", JSON.stringify(adminGames));
 }
 
-/* IMPORT / EXPORT */
-document.getElementById("exportBtn").onclick = () => {
-  const blob = new Blob([JSON.stringify(adminGames, null, 2)], {
-    type: "application/json"
-  });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "games-export.json";
-  a.click();
-};
-
-document.getElementById("importBtn").onclick = () => {
-  const file = document.getElementById("importFile").files[0];
-  if (!file) {
-    document.getElementById("importStatus").textContent = "No file selected.";
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = () => {
-    try {
-      adminGames = JSON.parse(reader.result);
-      saveAdminGames();
-      renderGameEditor();
-      document.getElementById("importStatus").textContent = "Import complete.";
-    } catch {
-      document.getElementById("importStatus").textContent = "Invalid JSON.";
-    }
+// IMPORT / EXPORT
+function setupImportExport() {
+  document.getElementById("exportBtn").onclick = () => {
+    const blob = new Blob([JSON.stringify(adminGames, null, 2)], {
+      type: "application/json"
+    });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "games-export.json";
+    a.click();
   };
-  reader.readAsText(file);
-};
 
-/* MAINTENANCE */
-document.getElementById("maintToggle").onchange = e => {
-  localStorage.setItem("maintenance", e.target.checked ? "true" : "false");
-};
+  document.getElementById("importBtn").onclick = () => {
+    const file = document.getElementById("importFile").files[0];
+    if (!file) {
+      document.getElementById("importStatus").textContent = "No file selected.";
+      return;
+    }
 
-/* LOCKDOWN */
-document.getElementById("lockBtn").onclick = () => {
-  const msg = document.getElementById("lockMsg").value.trim();
-  const minutes = parseInt(document.getElementById("lockMinutes").value);
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        adminGames = JSON.parse(reader.result);
+        saveAdminGames();
+        renderGameEditor();
+        document.getElementById("importStatus").textContent = "Import complete.";
+      } catch {
+        document.getElementById("importStatus").textContent = "Invalid JSON.";
+      }
+    };
+    reader.readAsText(file);
+  };
+}
 
-  if (!msg || !minutes) {
-    document.getElementById("lockStatus").textContent = "Missing fields.";
-    return;
-  }
+// MAINTENANCE
+function setupMaintenance() {
+  const toggle = document.getElementById("maintToggle");
+  const stored = localStorage.getItem("maintenance") === "true";
+  toggle.checked = stored;
 
-  const end = Date.now() + minutes * 60000;
+  toggle.onchange = e => {
+    localStorage.setItem("maintenance", e.target.checked ? "true" : "false");
+  };
+}
 
-  localStorage.setItem(
-    "blkGlobalLockdown",
-    JSON.stringify({ msg, end })
-  );
+// GLOBAL LOCKDOWN
+function setupLockdown() {
+  const msgEl = document.getElementById("lockMsg");
+  const minEl = document.getElementById("lockMinutes");
+  const statusEl = document.getElementById("lockStatus");
 
-  document.getElementById("lockStatus").textContent = "Lockdown activated.";
-};
+  document.getElementById("lockBtn").onclick = () => {
+    const msg = msgEl.value.trim();
+    const minutes = parseInt(minEl.value);
 
-document.getElementById("unlockBtn").onclick = () => {
-  localStorage.removeItem("blkGlobalLockdown");
-  document.getElementById("lockStatus").textContent = "Lockdown removed.";
-};
+    if (!msg || !minutes) {
+      statusEl.textContent = "Missing fields.";
+      return;
+    }
 
-/* REQUESTS */
+    const end = Date.now() + minutes * 60000;
+    localStorage.setItem("blkGlobalLockdown", JSON.stringify({ msg, end }));
+    statusEl.textContent = "Lockdown activated.";
+  };
+
+  document.getElementById("unlockBtn").onclick = () => {
+    localStorage.removeItem("blkGlobalLockdown");
+    statusEl.textContent = "Lockdown removed.";
+  };
+}
+
+// REQUESTS
 function loadRequests() {
   const list = JSON.parse(localStorage.getItem("blkRequests") || "[]");
   const box = document.getElementById("requestList");
@@ -149,17 +226,34 @@ function loadRequests() {
   });
 }
 
-/* ANALYTICS */
+// ANALYTICS
 function loadAnalytics() {
   const profile = JSON.parse(localStorage.getItem("blkArcadeProfile") || "{}");
   document.getElementById("analyticsFavs").textContent = profile.favorites?.length || 0;
   document.getElementById("analyticsRecent").textContent = profile.recent?.length || 0;
 }
 
-/* INIT */
-document.addEventListener("DOMContentLoaded", async () => {
+// INIT ADMIN APP (only after login)
+async function initAdminApp() {
+  document.getElementById("serverInfo").textContent = "Server running normally.";
   await loadAdminGames();
   loadRequests();
   loadAnalytics();
-  document.getElementById("serverInfo").textContent = "Server running normally.";
+  setupImportExport();
+  setupMaintenance();
+  setupLockdown();
+  setupNav();
+  setupSignOut();
+}
+
+// ROOT INIT
+document.addEventListener("DOMContentLoaded", () => {
+  setupLogin();
+
+  if (isLoggedIn()) {
+    initAdminApp();
+    showAdmin();
+  } else {
+    showLogin();
+  }
 });
