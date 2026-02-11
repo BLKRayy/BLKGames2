@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BLK Arcade Admin</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="theme-dark">
+
+  <div class="particle-layer">
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+    <div class="particle"></div><div class="particle"></div>
+  </div>
+
+  <header class="topbar">
+    <div class="top-left">
+      <button onclick="window.location.href='index.html'" class="pixel-btn small">BACK</button>
+    </div>
+    <div class="top-center">
+      <div class="logo-title">ADMIN PANEL</div>
+      <div class="logo-sub">BLK ARCADE CONTROL CENTER</div>
+    </div>
+    <div class="top-right">
+      <span id="adminServerStatus" class="status-pill">SERVER: ONLINE</span>
+    </div>
+  </header>
+
+  <main class="layout">
+
+    <aside class="sidebar">
+      <button class="nav-btn active" data-section="dashboard">DASHBOARD</button>
+      <button class="nav-btn" data-section="games">GAME EDITOR</button>
+      <button class="nav-btn" data-section="importexport">IMPORT / EXPORT</button>
+      <button class="nav-btn" data-section="maintenance">MAINTENANCE</button>
+      <button class="nav-btn" data-section="lockdown">GLOBAL LOCKDOWN</button>
+      <button class="nav-btn" data-section="requests">GAME REQUESTS</button>
+    </aside>
+
+    <section class="content">
+
+      <section class="panel" id="admin-dashboard">
+        <h3>SERVER DASHBOARD</h3>
+        <div class="panel-sub">Live system overview</div>
+
+        <div class="panel" style="margin-top:10px;">
+          <div class="panel-header">
+            <h3>SERVER STATUS</h3>
+          </div>
+          <p id="serverInfo">Checking...</p>
+        </div>
+
+        <div class="panel" style="margin-top:10px;">
+          <div class="panel-header">
+            <h3>PLAYER ANALYTICS</h3>
+          </div>
+          <p>Total Favorites: <span id="analyticsFavs">0</span></p>
+          <p>Total Recent Plays: <span id="analyticsRecent">0</span></p>
+        </div>
+      </section>
+
+      <section class="panel hidden" id="admin-games">
+        <h3>GAME EDITOR</h3>
+        <div class="panel-sub">Edit, update, or remove games</div>
+        <div id="gameList"></div>
+      </section>
+
+      <section class="panel hidden" id="admin-importexport">
+        <h3>IMPORT / EXPORT</h3>
+        <div class="panel-sub">Backup or restore your game library</div>
+
+        <button id="exportBtn" class="pixel-btn glow" style="margin-top:10px;">EXPORT GAMES</button>
+
+        <input type="file" id="importFile" style="margin-top:10px;">
+        <button id="importBtn" class="pixel-btn" style="margin-top:6px;">IMPORT</button>
+
+        <p id="importStatus" style="margin-top:6px;font-size:8px;"></p>
+      </section>
+
+      <section class="panel hidden" id="admin-maintenance">
+        <h3>MAINTENANCE MODE</h3>
+        <div class="panel-sub">Disable the entire site temporarily</div>
+
+        <label style="font-size:8px;margin-top:10px;">
+          <input type="checkbox" id="maintToggle"> ENABLE MAINTENANCE
+        </label>
+      </section>
+
+      <section class="panel hidden" id="admin-lockdown">
+        <h3>GLOBAL LOCKDOWN</h3>
+        <div class="panel-sub">Force the entire site into lockdown</div>
+
+        <textarea id="lockMsg" class="request-box" placeholder="Lockdown message..."></textarea>
+        <input id="lockMinutes" class="search-input" placeholder="Minutes" style="margin-top:6px;">
+
+        <button id="lockBtn" class="pixel-btn glow" style="margin-top:10px;">ACTIVATE LOCKDOWN</button>
+        <button id="unlockBtn" class="pixel-btn" style="margin-top:6px;">REMOVE LOCKDOWN</button>
+
+        <p id="lockStatus" style="margin-top:6px;font-size:8px;"></p>
+      </section>
+
+      <section class="panel hidden" id="admin-requests">
+        <h3>GAME REQUESTS</h3>
+        <div class="panel-sub">Submitted by users</div>
+
+        <div id="requestList" style="margin-top:10px;"></div>
+      </section>
+
+    </section>
+  </main>
+
+  <script src="admin.js"></script>
+</body>
+</html>
