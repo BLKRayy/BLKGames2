@@ -115,3 +115,192 @@
   width: 100%;
   margin: 6px 0 12px;
 }
+/* ============================
+   STEP 2 — HOME PANELS
+   ============================ */
+
+.home-panels,
+#trendingGames,
+#recentlyAddedGames {
+  margin-top: 1rem;
+}
+
+.home-panel {
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 1rem;
+  padding: 1rem 1.25rem 1.25rem;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  box-shadow: 0 0 30px rgba(56, 189, 248, 0.15);
+}
+
+/* ============================
+   PROFILE PAGE
+   ============================ */
+
+.profile-card {
+  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), rgba(15, 23, 42, 0.98));
+  border-radius: 1.25rem;
+  padding: 1.25rem 1.5rem 1.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow:
+    0 0 40px rgba(56, 189, 248, 0.25),
+    0 0 0 1px rgba(15, 23, 42, 0.9) inset;
+  backdrop-filter: blur(18px);
+}
+
+.profile-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-level-tag {
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 189, 248, 0.7);
+  color: #e0f2fe;
+  background: linear-gradient(90deg, rgba(56, 189, 248, 0.2), rgba(15, 23, 42, 0.9));
+}
+
+/* ============================
+   XP BAR
+   ============================ */
+
+.xp-bar {
+  position: relative;
+  width: 100%;
+  height: 14px;
+  border-radius: 999px;
+  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 1));
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 1),
+    0 0 25px rgba(56, 189, 248, 0.35);
+  margin-top: 0.75rem;
+}
+
+.xp-bar-fill {
+  position: absolute;
+  inset: 0;
+  width: 0%;
+  background: linear-gradient(90deg, #22d3ee, #38bdf8, #0ea5e9);
+  box-shadow:
+    0 0 20px rgba(56, 189, 248, 0.9),
+    0 0 40px rgba(56, 189, 248, 0.7);
+  transition: width 0.4s ease-out;
+}
+
+.xp-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #e5e7eb;
+}
+
+/* ============================
+   ACHIEVEMENTS
+   ============================ */
+
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.achievement {
+  border-radius: 0.9rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), rgba(15, 23, 42, 0.98));
+  font-size: 0.8rem;
+  color: #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.achievement::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: conic-gradient(from 0deg, rgba(56, 189, 248, 0.0), rgba(56, 189, 248, 0.35), rgba(56, 189, 248, 0.0));
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+.achievement.unlocked::before {
+  opacity: 1;
+  animation: achievementGlow 2.4s linear infinite;
+}
+
+.achievement-title {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  color: #e0f2fe;
+}
+
+.achievement-desc {
+  font-size: 0.75rem;
+  color: #cbd5f5;
+}
+
+.achievement.locked {
+  opacity: 0.45;
+  filter: grayscale(0.4);
+}
+
+@keyframes achievementGlow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ============================
+   STATS PANEL
+   ============================ */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.stat-item {
+  border-radius: 0.9rem;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), rgba(15, 23, 42, 0.98));
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #9ca3af;
+}
+
+.stat-value {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.95rem;
+  color: #e5e7eb;
+}
+
+/* ============================
+   RESPONSIVE
+   ============================ */
+
+@media (max-width: 900px) {
+  .profile-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
