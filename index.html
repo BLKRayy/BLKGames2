@@ -9,6 +9,7 @@
 </head>
 <body class="theme-dark">
 
+  <!-- LOCKDOWN -->
   <div id="lockdownScreen" class="lockdown hidden">
     <div class="lock-admin-top">
       <button id="lockAdminBtn" class="btn btn-ghost">ADMIN</button>
@@ -31,12 +32,14 @@
     </div>
   </div>
 
+  <!-- PARTICLES -->
   <div class="particle-layer">
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
     <div class="particle"></div><div class="particle"></div><div class="particle"></div>
     <div class="particle"></div><div class="particle"></div>
   </div>
 
+  <!-- HEADER -->
   <header class="appbar glass">
     <div class="appbar-left">
       <div class="logo-mark">BLK</div>
@@ -45,6 +48,7 @@
         <div class="logo-sub">UNBLOCKED • CYBER • CLEAN</div>
       </div>
     </div>
+
     <div class="appbar-center">
       <nav class="nav-links">
         <button class="nav-link active" data-section="home">HOME</button>
@@ -52,8 +56,10 @@
         <button class="nav-link" data-section="recent">RECENT</button>
         <button class="nav-link" data-section="all">ALL GAMES</button>
         <button class="nav-link" data-section="request">REQUEST</button>
+        <button class="nav-link" data-section="profile">PROFILE</button>
       </nav>
     </div>
+
     <div class="appbar-right">
       <button id="themeToggle" class="icon-btn" title="Toggle theme">☾</button>
       <button id="adminTopBtn" class="btn btn-outline small">ADMIN</button>
@@ -62,6 +68,7 @@
 
   <main class="main-shell">
 
+    <!-- HERO -->
     <section class="hero glass">
       <div class="hero-left">
         <div class="hero-tag">FEATURED GAME</div>
@@ -83,6 +90,7 @@
       </div>
     </section>
 
+    <!-- SEARCH BAR -->
     <section class="toolbar glass">
       <div class="toolbar-left">
         <input id="searchInput" class="input" placeholder="Search for titles... (press / to focus)">
@@ -92,7 +100,28 @@
       </div>
     </section>
 
+    <!-- HOME -->
     <section id="section-home" class="section-grid active">
+
+      <!-- TRENDING -->
+      <section class="panel glass">
+        <div class="panel-header">
+          <h2>Trending</h2>
+          <span class="panel-sub">What’s hot right now.</span>
+        </div>
+        <div id="trendingGames" class="game-grid"></div>
+      </section>
+
+      <!-- RECENTLY ADDED -->
+      <section class="panel glass">
+        <div class="panel-header">
+          <h2>Recently Added</h2>
+          <span class="panel-sub">New arrivals.</span>
+        </div>
+        <div id="recentlyAddedGames" class="game-grid"></div>
+      </section>
+
+      <!-- FAVORITES -->
       <section class="panel glass">
         <div class="panel-header">
           <h2>Favorites</h2>
@@ -101,6 +130,7 @@
         <div id="favoriteGames" class="game-grid"></div>
       </section>
 
+      <!-- RECENT -->
       <section class="panel glass">
         <div class="panel-header">
           <h2>Recently Played</h2>
@@ -109,6 +139,7 @@
         <div id="recentGames" class="game-grid"></div>
       </section>
 
+      <!-- ALL GAMES -->
       <section class="panel glass">
         <div class="panel-header">
           <h2>All Games</h2>
@@ -116,8 +147,10 @@
         </div>
         <div id="allGames" class="game-grid"></div>
       </section>
+
     </section>
 
+    <!-- FAVORITES PAGE -->
     <section id="section-favorites" class="section-grid hidden">
       <section class="panel glass">
         <div class="panel-header">
@@ -128,6 +161,7 @@
       </section>
     </section>
 
+    <!-- RECENT PAGE -->
     <section id="section-recent" class="section-grid hidden">
       <section class="panel glass">
         <div class="panel-header">
@@ -138,6 +172,7 @@
       </section>
     </section>
 
+    <!-- ALL GAMES PAGE -->
     <section id="section-all" class="section-grid hidden">
       <section class="panel glass">
         <div class="panel-header">
@@ -148,6 +183,7 @@
       </section>
     </section>
 
+    <!-- REQUEST PAGE -->
     <section id="section-request" class="section-grid hidden">
       <section class="panel glass">
         <div class="panel-header">
@@ -162,6 +198,58 @@
       </section>
     </section>
 
+    <!-- PROFILE PAGE (NEW) -->
+    <section id="section-profile" class="section-grid hidden">
+
+      <!-- XP + LEVEL -->
+      <section class="panel glass profile-card">
+        <div class="profile-title-row">
+          <h2>PROFILE</h2>
+          <span id="profileLevelTag" class="profile-level-tag">LVL 1</span>
+        </div>
+
+        <div class="xp-bar">
+          <div id="xpBarFill" class="xp-bar-fill"></div>
+        </div>
+
+        <div class="xp-meta">
+          <span id="xpCurrent">0 XP</span>
+          <span id="xpNext">Next: 100 XP</span>
+        </div>
+      </section>
+
+      <!-- ACHIEVEMENTS -->
+      <section class="panel glass profile-card">
+        <div class="panel-header">
+          <h3>Achievements</h3>
+        </div>
+        <div id="achievementsGrid" class="achievements-grid"></div>
+      </section>
+
+      <!-- STATS -->
+      <section class="panel glass profile-card">
+        <div class="panel-header">
+          <h3>Stats</h3>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-label">Total XP</span>
+            <span id="statTotalXP" class="stat-value">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Total Play Time</span>
+            <span id="statTotalTime" class="stat-value">0 min</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Total Plays</span>
+            <span id="statTotalPlays" class="stat-value">0</span>
+          </div>
+        </div>
+      </section>
+
+    </section>
+
+    <!-- PLAYER -->
     <section id="gamePlayer" class="panel glass hidden" style="padding:0;margin-top:18px;">
       <div class="player-topbar">
         <div id="playerTitle" class="player-title">GAME</div>
@@ -177,6 +265,7 @@
       </div>
     </section>
 
+    <!-- FULLSCREEN MODAL -->
     <div id="playerModal" class="hidden modal-overlay">
       <div class="modal-frame">
         <iframe id="modalFrame" src="" allowfullscreen></iframe>
@@ -184,6 +273,7 @@
       </div>
     </div>
 
+    <!-- SETTINGS -->
     <div id="settingsPanel" class="hidden settings-panel glass">
       <h3 class="settings-title">Game Settings</h3>
       <label class="settings-label">Volume</label>
@@ -194,6 +284,7 @@
 
   </main>
 
+  <!-- AI -->
   <button id="aiButton" class="ai-orb">?</button>
 
   <div id="aiModal" class="ai-modal hidden">
